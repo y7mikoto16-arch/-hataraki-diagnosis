@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -5,267 +6,370 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>働きがい診断</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;700&display=swap');
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --bg: #F7F5F2;
-    --surface: #FFFFFF;
-    --primary: #3D5A80;
-    --accent: #E07A5F;
-    --text: #1A1A2E;
-    --text-sub: #6B7280;
-    --border: #E5E0D8;
-    --radius: 16px;
-  }
+:root {
+  --font: 'BIZ UDPGothic', sans-serif;
+  --bg: #F8F7F4;
+  --surface: #FFFFFF;
+  --text: #1A1A18;
+  --text-sub: #6B6B68;
+  --border: #E5E2DC;
+  --radius: 16px;
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  --type-a-dark: #E8502A;
+  --type-a-mid:  #F4845F;
+  --type-a-light:#FBCFBF;
 
-  body {
-    font-family: 'Noto Sans JP', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-  }
+  --type-b-dark: #E8A020;
+  --type-b-mid:  #F5C96A;
+  --type-b-light:#FFF0C2;
 
-  #loading {
-    position: fixed; inset: 0;
-    background: var(--bg);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 16px; z-index: 100;
-  }
-  .spinner {
-    width: 48px; height: 48px;
-    border: 3px solid var(--border);
-    border-top-color: var(--primary);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  #loading p { color: var(--text-sub); font-size: 14px; }
+  --type-c-dark: #3A8C28;
+  --type-c-mid:  #80C46E;
+  --type-c-light:#D0EDCA;
 
-  #error {
-    display: none;
-    max-width: 480px; margin: 80px auto; padding: 0 24px;
-    text-align: center;
-  }
-  #error h2 { font-size: 20px; margin-bottom: 12px; color: var(--accent); }
-  #error p { color: var(--text-sub); line-height: 1.8; font-size: 14px; }
-  #error pre { text-align:left; background:#eee; padding:12px; border-radius:8px; font-size:11px; margin-top:12px; white-space:pre-wrap; word-break:break-all; }
+  --type-d-dark: #5C3A78;
+  --type-d-mid:  #A882C0;
+  --type-d-light:#E8D8F4;
 
-  #main { display: none; }
+  --type-e-dark: #1A88CC;
+  --type-e-mid:  #72C4E8;
+  --type-e-light:#C8EDFB;
 
-  header {
-    background: var(--primary);
-    color: white;
-    padding: 20px 24px;
-    text-align: center;
-  }
-  header h1 {
-    font-family: 'Noto Serif JP', serif;
-    font-size: clamp(20px, 5vw, 28px);
-    font-weight: 700;
-    letter-spacing: 0.05em;
-  }
-  header p { font-size: 13px; opacity: 0.75; margin-top: 4px; }
+  --type-f-dark: #3A3530;
+  --type-f-mid:  #C8A86A;
+  --type-f-light:#EDE0CC;
+}
 
-  .container {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 32px 24px 64px;
-  }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
 
-  .type-card {
-    background: var(--surface);
-    border-radius: var(--radius);
-    overflow: hidden;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-    margin-bottom: 24px;
-  }
-  .type-header {
-    background: var(--primary);
-    color: white;
-    padding: 28px 32px;
-  }
-  .type-label {
-    font-size: 12px;
-    letter-spacing: 0.15em;
-    opacity: 0.75;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-  .type-name {
-    font-family: 'Noto Serif JP', serif;
-    font-size: clamp(24px, 6vw, 36px);
-    font-weight: 700;
-    line-height: 1.2;
-  }
-  .type-badge {
-    display: inline-block;
-    background: var(--accent);
-    color: white;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    padding: 4px 12px;
-    border-radius: 100px;
-    margin-top: 12px;
-  }
-  .type-body { padding: 28px 32px; }
-  .type-desc { font-size: 15px; line-height: 1.9; color: var(--text); }
+/* ========== 氏名入力画面 ========== */
+#nameScreen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
 
-  .chart-card {
-    background: var(--surface);
-    border-radius: var(--radius);
-    padding: 28px 32px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-    margin-bottom: 24px;
-  }
-  .section-title {
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: var(--text-sub);
-    text-transform: uppercase;
-    margin-bottom: 20px;
-  }
-  .chart-wrap { max-width: 360px; margin: 0 auto; }
+.name-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 48px 40px;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 2px 24px rgba(0,0,0,0.06);
+  text-align: center;
+}
 
-  .scores-card {
-    background: var(--surface);
-    border-radius: var(--radius);
-    padding: 28px 32px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-    margin-bottom: 24px;
-  }
-  .score-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .score-row:last-child { border-bottom: none; }
-  .score-label { font-size: 13px; color: var(--text); flex: 1; min-width: 0; }
-  .score-bar-wrap {
-    width: 120px; height: 6px;
-    background: var(--border);
-    border-radius: 100px;
-    overflow: hidden; flex-shrink: 0;
-  }
-  .score-bar {
-    height: 100%;
-    background: var(--primary);
-    border-radius: 100px;
-  }
-  .score-val {
-    font-size: 13px; font-weight: 700;
-    color: var(--primary);
-    width: 32px; text-align: right; flex-shrink: 0;
-  }
+.name-card .logo {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--text-sub);
+  margin-bottom: 32px;
+}
 
-  .note {
-    background: #EEF2F7;
-    border-left: 3px solid var(--primary);
-    border-radius: 0 8px 8px 0;
-    padding: 16px 20px;
-    font-size: 13px;
-    color: var(--text-sub);
-    line-height: 1.8;
-  }
+.name-card h1 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
 
-  @media (max-width: 480px) {
-    .type-header, .type-body, .chart-card, .scores-card { padding: 20px; }
-    .score-bar-wrap { width: 80px; }
-  }
+.name-card p {
+  font-size: 13px;
+  color: var(--text-sub);
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+
+.name-input-wrap {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.name-input-wrap input {
+  width: 100%;
+  padding: 14px 18px;
+  font-family: var(--font);
+  font-size: 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.name-input-wrap input:focus {
+  border-color: #888;
+}
+
+.name-btn {
+  width: 100%;
+  padding: 14px;
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 700;
+  background: var(--text);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  letter-spacing: 0.05em;
+}
+
+.name-btn:hover { opacity: 0.8; }
+
+.name-error {
+  display: none;
+  font-size: 13px;
+  color: #C0392B;
+  margin-top: 12px;
+}
+
+/* ========== ローディング ========== */
+#loading {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 100;
+}
+
+.spinner {
+  width: 40px; height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: #888;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ========== 結果画面 ========== */
+#resultScreen { display: none; }
+
+.result-header {
+  padding: 48px 24px 40px;
+  text-align: center;
+  position: relative;
+}
+
+.result-header .label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  opacity: 0.6;
+  margin-bottom: 20px;
+}
+
+.result-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.type-icon-wrap {
+  flex-shrink: 0;
+}
+
+.type-title-wrap {
+  text-align: left;
+}
+
+.anata-wa {
+  font-size: 13px;
+  opacity: 0.7;
+  margin-bottom: 4px;
+}
+
+.type-name-large {
+  font-size: clamp(26px, 6vw, 38px);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.type-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 4px 14px;
+  border-radius: 100px;
+  opacity: 0.85;
+}
+
+.desc-card {
+  max-width: 640px;
+  margin: 32px auto 0;
+  background: rgba(255,255,255,0.6);
+  border-radius: 12px;
+  padding: 20px 24px;
+  font-size: 14px;
+  line-height: 1.9;
+  text-align: left;
+}
+
+/* ========== レーダーチャートセクション ========== */
+.chart-section {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 24px 64px;
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--text-sub);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.chart-wrap {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* ========== タイプ別カラー ========== */
+.type-A { background: linear-gradient(135deg, var(--type-a-dark), var(--type-a-mid)); color: #fff; }
+.type-A .type-badge { background: rgba(255,255,255,0.25); color: #fff; }
+.type-A .desc-card { border-left: 3px solid var(--type-a-mid); }
+
+.type-B { background: linear-gradient(135deg, var(--type-b-dark), var(--type-b-mid)); color: #fff; }
+.type-B .type-badge { background: rgba(255,255,255,0.25); color: #fff; }
+.type-B .desc-card { border-left: 3px solid var(--type-b-mid); }
+
+.type-C { background: linear-gradient(135deg, var(--type-c-dark), var(--type-c-mid)); color: #fff; }
+.type-C .type-badge { background: rgba(255,255,255,0.25); color: #fff; }
+.type-C .desc-card { border-left: 3px solid var(--type-c-mid); }
+
+.type-D { background: linear-gradient(135deg, var(--type-d-dark), var(--type-d-mid)); color: #fff; }
+.type-D .type-badge { background: rgba(255,255,255,0.25); color: #fff; }
+.type-D .desc-card { border-left: 3px solid var(--type-d-mid); }
+
+.type-E { background: linear-gradient(135deg, var(--type-e-dark), var(--type-e-mid)); color: #fff; }
+.type-E .type-badge { background: rgba(255,255,255,0.25); color: #fff; }
+.type-E .desc-card { border-left: 3px solid var(--type-e-mid); }
+
+.type-F .anata-wa { color: var(--text-sub); }
+.type-F .type-name-large { color: var(--text); }
+.type-F .result-header { background: linear-gradient(135deg, #F0EDE8, var(--type-f-light)); }
+.type-F .type-badge { background: var(--type-f-dark); color: #EDE0CC; }
+.type-F .desc-card { border-left: 3px solid var(--type-f-mid); }
+
+/* タイプF以外のヘッダーはカラーで */
+#resultScreen.type-A .result-header,
+#resultScreen.type-B .result-header,
+#resultScreen.type-C .result-header,
+#resultScreen.type-D .result-header,
+#resultScreen.type-E .result-header { color: #fff; }
+
+/* ========== SVGアイコン ========== */
+.type-icon { width: 96px; height: 96px; }
+
+@media (max-width: 480px) {
+  .name-card { padding: 36px 24px; }
+  .result-top { flex-direction: column; gap: 16px; }
+  .type-title-wrap { text-align: center; }
+  .type-icon { width: 80px; height: 80px; }
+}
 </style>
 </head>
 <body>
 
-<div id="loading">
+<!-- 氏名入力画面 -->
+<div id="nameScreen">
+  <div class="name-card">
+    <div class="logo">働きがい診断</div>
+    <h1>あなたの氏名を<br>入力してください</h1>
+    <p>フォームに回答したときと<br>同じ氏名を入力してください。</p>
+    <div class="name-input-wrap">
+      <input type="text" id="nameInput" placeholder="例：山田 太郎" />
+    </div>
+    <button class="name-btn" onclick="fetchResult()">結果を見る</button>
+    <div class="name-error" id="nameError"></div>
+  </div>
+</div>
+
+<!-- ローディング -->
+<div id="loading" style="display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
   <div class="spinner"></div>
-  <p>診断結果を読み込んでいます…</p>
+  <p style="font-size:13px;color:var(--text-sub);">診断結果を取得しています…</p>
 </div>
 
-<div id="error">
-  <h2>データが見つかりませんでした</h2>
-  <p>Google Apps Scriptの設定が完了しているか確認してください。<br>またはフォームから回答を送信した後にアクセスしてください。</p>
-  <pre id="errorDetail"></pre>
-</div>
-
-<div id="main">
-  <header>
-    <h1>働きがい診断</h1>
-    <p>あなたの働きがいタイプ</p>
-  </header>
-
-  <div class="container">
-
-    <div class="type-card">
-      <div class="type-header">
-        <div class="type-label">Your Type</div>
-        <div class="type-name" id="typeName">—</div>
-        <div class="type-badge" id="typeBadge">—</div>
+<!-- 結果画面 -->
+<div id="resultScreen">
+  <div class="result-header" id="resultHeader">
+    <div class="label">HATARAKI-GAI DIAGNOSIS</div>
+    <div class="result-top">
+      <div class="type-icon-wrap">
+        <svg class="type-icon" id="typeIcon" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>
       </div>
-      <div class="type-body">
-        <p class="type-desc" id="typeDesc">—</p>
+      <div class="type-title-wrap">
+        <div class="anata-wa">あなたは…</div>
+        <div class="type-name-large" id="typeName"></div>
+        <div class="type-badge" id="typeBadge"></div>
       </div>
     </div>
+    <div class="desc-card" id="typeDesc"></div>
+  </div>
 
-    <div class="chart-card">
-      <div class="section-title">要素別スコア</div>
-      <div class="chart-wrap">
-        <canvas id="radarChart"></canvas>
-      </div>
+  <div class="chart-section">
+    <div class="section-label">要素別スコア</div>
+    <div class="chart-wrap">
+      <canvas id="radarChart"></canvas>
     </div>
-
-    <div class="scores-card">
-      <div class="section-title">詳細スコア</div>
-      <div id="scoreList"></div>
-    </div>
-
-    <div class="note">
-      この診断は参考情報です。同じデータをもとに、より詳しい分析を別途行います。
-    </div>
-
   </div>
 </div>
 
 <script>
-// =============================================
-// ★ここにGASのURLを貼り付けてください★
-// =============================================
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbzvwXYx9RFhHORKCwTc9J3oIsSGr-obG_C34BB__KQMmZ99T-k0-3K4qq4grjpRh6RXjg/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbxXu5V8W2eTHJfWkrd-ZDJI_TE0yEVq_Hkjop0MIyjwF20OPRBWPZxYsLWlBW0HFK6wUw/exec';
 
 const ELEMENT_ORDER = [
-  '業界への誇り',
-  '良好な人間関係',
-  '他者承認',
-  '社会貢献・他者貢献',
-  '制度・報酬',
-  '成長実感・能力発揮',
-  '役割・目標明瞭性',
-  'スキル獲得',
+  '業界への誇り','良好な人間関係','他者承認',
+  '社会貢献・他者貢献','制度・報酬','成長実感・能力発揮',
+  '役割・目標明瞭性','スキル獲得',
 ];
 
 const QUESTION_MAP = {
-  '私は福祉業界で働いていることを誇りに思う':                       '業界への誇り',
-  '私の職場には、信頼できる上司や同僚がいる':                       '良好な人間関係',
-  '私と同僚の間には、困ったときに助け合う関係がある':               '良好な人間関係',
-  '上司や同僚とは、厳しい意見も素直に言い合うことができる':         '良好な人間関係',
-  '私は上司や同僚から認められていると感じる':                       '他者承認',
-  '私は利用者や他職種から必要とされていると感じる':                  '他者承認',
-  '私は仕事を通して社会に貢献していると感じる':                     '社会貢献・他者貢献',
-  '私は同僚や後輩から頼りにされていると感じる':                     '社会貢献・他者貢献',
-  '気兼ねなく休暇（有給・長期休暇含む）を取得できる':               '制度・報酬',
-  '仕事に見合った報酬や対価が得られる':                             '制度・報酬',
-  '仕事を通じて成長したと感じられる':                               '成長実感・能力発揮',
-  '私は、担当業務において自分のスキルや能力を十分活かしている':      '成長実感・能力発揮',
-  '私は難易度の高い仕事や新しい仕事に挑戦している':                 '成長実感・能力発揮',
-  '私の職場ではそれぞれ担うべき役割が明確になっている':             '役割・目標明瞭性',
-  'この仕事では、自分だからこそできる／できたと思うことがある':      '役割・目標明瞭性',
-  '新たな知識やスキル、資格を積極的に獲得している':                  'スキル獲得',
+  '私は福祉業界で働いていることを誇りに思う': '業界への誇り',
+  '私の職場には、信頼できる上司や同僚がいる': '良好な人間関係',
+  '私と同僚の間には、困ったときに助け合う関係がある': '良好な人間関係',
+  '上司や同僚とは、厳しい意見も素直に言い合うことができる': '良好な人間関係',
+  '私は上司や同僚から認められていると感じる': '他者承認',
+  '私は利用者や他職種から必要とされていると感じる': '他者承認',
+  '私は仕事を通して社会に貢献していると感じる': '社会貢献・他者貢献',
+  '私は同僚や後輩から頼りにされていると感じる': '社会貢献・他者貢献',
+  '気兼ねなく休暇（有給・長期休暇含む）を取得できる': '制度・報酬',
+  '仕事に見合った報酬や対価が得られる': '制度・報酬',
+  '仕事を通じて成長したと感じられる': '成長実感・能力発揮',
+  '私は、担当業務において自分のスキルや能力を十分活かしている': '成長実感・能力発揮',
+  '私は難易度の高い仕事や新しい仕事に挑戦している': '成長実感・能力発揮',
+  '私の職場ではそれぞれ担うべき役割が明確になっている': '役割・目標明瞭性',
+  'この仕事では、自分だからこそできる／できたと思うことがある': '役割・目標明瞭性',
+  '新たな知識やスキル、資格を積極的に獲得している': 'スキル獲得',
 };
 
 const TYPES = {
@@ -273,66 +377,110 @@ const TYPES = {
     name: '仕事が生きがい',
     badge: 'Type A',
     desc: '興味関心のある仕事に取り組むことや成長を感じることに働きがいを見出すタイプです。積極的に学び、よりよいケアを模索しながら、社会貢献の実感を大切にします。すべての要素に対して高い意識を持ち、仕事全体を通じて自分らしさを発揮しています。',
+    colorDark: '#E8502A', colorMid: '#F4845F', colorLight: '#FBCFBF',
+    icon: (c) => `
+      <circle cx="48" cy="28" r="14" fill="${c.light}"/>
+      <circle cx="48" cy="28" r="14" fill="none" stroke="${c.dark}" stroke-width="2.5"/>
+      <path d="M34 58c0-7.7 6.3-14 14-14s14 6.3 14 14v10H34V58z" fill="${c.light}" stroke="${c.dark}" stroke-width="2.5"/>
+      <path d="M38 50l-8 8M58 50l8 8" stroke="${c.mid}" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M44 22l4 5 4-5" stroke="${c.dark}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="60" cy="20" r="8" fill="${c.dark}"/>
+      <path d="M57 20l2 2 4-4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    `
   },
   B: {
     name: '褒められると頑張れる',
     badge: 'Type B',
     desc: '仕事への意欲は高い一方で、「自分のケアはこれでよいのだろうか」と不安を感じやすいタイプです。周囲からの承認やポジティブなフィードバックが、自信を持って行動する支えになります。',
+    colorDark: '#E8A020', colorMid: '#F5C96A', colorLight: '#FFF0C2',
+    icon: (c) => `
+      <circle cx="48" cy="28" r="14" fill="${c.light}" stroke="${c.dark}" stroke-width="2.5"/>
+      <path d="M34 58c0-7.7 6.3-14 14-14s14 6.3 14 14v10H34V58z" fill="${c.light}" stroke="${c.dark}" stroke-width="2.5"/>
+      <path d="M38 50l-8 8M58 50l8 8" stroke="${c.mid}" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M43 26c0 0 2 3 5 3s5-3 5-3" stroke="${c.dark}" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="44" cy="24" r="1.5" fill="${c.dark}"/>
+      <circle cx="52" cy="24" r="1.5" fill="${c.dark}"/>
+      <path d="M62 14l1.5 3 3.5 0.5-2.5 2.5 0.5 3.5L62 22l-3 1.5 0.5-3.5-2.5-2.5 3.5-0.5z" fill="${c.dark}"/>
+    `
   },
   C: {
     name: '生活と仕事の両立',
     badge: 'Type C',
     desc: '職場の人間関係に加え、福利厚生や報酬など、自分や家族の生活基盤に関わる要素を重視するタイプです。生活の安定があってこそ、よりよいケアに向き合えると感じています。',
+    colorDark: '#3A8C28', colorMid: '#80C46E', colorLight: '#D0EDCA',
+    icon: (c) => `
+      <circle cx="48" cy="28" r="14" fill="${c.light}" stroke="${c.dark}" stroke-width="2.5"/>
+      <path d="M34 58c0-7.7 6.3-14 14-14s14 6.3 14 14v10H34V58z" fill="${c.light}" stroke="${c.dark}" stroke-width="2.5"/>
+      <path d="M38 50l-8 8M58 50l8 8" stroke="${c.mid}" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M43 26c0 0 2 3 5 3s5-3 5-3" stroke="${c.dark}" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="44" cy="24" r="1.5" fill="${c.dark}"/>
+      <circle cx="52" cy="24" r="1.5" fill="${c.dark}"/>
+      <path d="M56 16c0-3.3 2.7-6 6-6s6 2.7 6 6c0 4-6 9-6 9s-6-5-6-9z" fill="${c.dark}"/>
+      <circle cx="62" cy="16" r="2" fill="white"/>
+    `
   },
   D: {
     name: 'スキルアップ重視',
     badge: 'Type D',
     desc: '知識やスキルを身につけることが、仕事のしやすさにも働きがいにもつながるタイプです。研修参加や学びを通じて仕事を効率化し、その先に利用者へのよりよいケアを目指します。',
+    colorDark: '#5C3A78', colorMid: '#A882C0', colorLight: '#E8D8F4',
+    icon: (c) => `
+      <circle cx="48" cy="28" r="14" fill="${c.light}" stroke="${c.dark}" stroke-width="2.5"/>
+      <path d="M34 58c0-7.7 6.3-14 14-14s14 6.3 14 14v10H34V58z" fill="${c.light}" stroke="${c.dark}" stroke-width="2.5"/>
+      <path d="M38 50l-8 8M58 50l8 8" stroke="${c.mid}" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M43 26c0 0 2 3 5 3s5-3 5-3" stroke="${c.dark}" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="44" cy="24" r="1.5" fill="${c.dark}"/>
+      <circle cx="52" cy="24" r="1.5" fill="${c.dark}"/>
+      <rect x="56" y="12" width="16" height="12" rx="2" fill="${c.dark}"/>
+      <path d="M59 16h10M59 20h7" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M64 24v4l3-2-3-2z" fill="${c.dark}"/>
+    `
   },
   E: {
     name: 'やるべきことをやる',
     badge: 'Type E',
     desc: '明確な役割や目標が示されることで、安心して力を発揮できるタイプです。自分が果たすべき役割の明瞭さと、目標達成のための適切な指示が、働きやすさと行動の安定につながります。',
+    colorDark: '#1A88CC', colorMid: '#72C4E8', colorLight: '#C8EDFB',
+    icon: (c) => `
+      <circle cx="48" cy="28" r="14" fill="${c.light}" stroke="${c.dark}" stroke-width="2.5"/>
+      <path d="M34 58c0-7.7 6.3-14 14-14s14 6.3 14 14v10H34V58z" fill="${c.light}" stroke="${c.dark}" stroke-width="2.5"/>
+      <path d="M38 50l-8 8M58 50l8 8" stroke="${c.mid}" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M43 26c0 0 2 3 5 3s5-3 5-3" stroke="${c.dark}" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="44" cy="24" r="1.5" fill="${c.dark}"/>
+      <circle cx="52" cy="24" r="1.5" fill="${c.dark}"/>
+      <rect x="56" y="12" width="14" height="14" rx="7" fill="none" stroke="${c.dark}" stroke-width="2"/>
+      <path d="M60 19l2 2 4-4" stroke="${c.dark}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    `
   },
   F: {
     name: '目の前のことを着実に',
     badge: 'Type F',
     desc: '特定の働きがいに強くこだわるよりも、与えられた仕事を着々とこなすことを大切にするタイプです。仕事のクオリティは安定しており、制度・環境の整備が安心感につながります。',
+    colorDark: '#3A3530', colorMid: '#C8A86A', colorLight: '#EDE0CC',
+    icon: (c) => `
+      <circle cx="48" cy="28" r="14" fill="${c.light}" stroke="${c.dark}" stroke-width="2.5"/>
+      <path d="M34 58c0-7.7 6.3-14 14-14s14 6.3 14 14v10H34V58z" fill="${c.light}" stroke="${c.dark}" stroke-width="2.5"/>
+      <path d="M38 50l-8 8M58 50l8 8" stroke="${c.mid}" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M43 27h10" stroke="${c.dark}" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="44" cy="24" r="1.5" fill="${c.dark}"/>
+      <circle cx="52" cy="24" r="1.5" fill="${c.dark}"/>
+      <path d="M57 22l10 0M57 26l7 0M57 30l10 0" stroke="${c.mid}" stroke-width="2" stroke-linecap="round"/>
+    `
   },
 };
 
-function determineType(scores) {
-  const avg = ELEMENT_ORDER.reduce((s, k) => s + scores[k], 0) / ELEMENT_ORDER.length;
-  const ranked = [...ELEMENT_ORDER].sort((a, b) => scores[b] - scores[a]);
-  const top1 = ranked[0];
-  const top2 = ranked[1];
-  const 制度報酬 = scores['制度・報酬'];
-
-  if (avg >= 3.2) return 'A';
-
-  if (avg >= 2.8) {
-    return 制度報酬 >= 2.5 ? 'C' : 'B';
-  }
-
-  if (
-    (top1 === 'スキル獲得' || top1 === '成長実感・能力発揮') &&
-    (top2 === 'スキル獲得' || top2 === '成長実感・能力発揮')
-  ) return 'D';
-
-  if (
-    (top1 === '役割・目標明瞭性' || top2 === '役割・目標明瞭性') &&
-    (top1 === 'スキル獲得' || top2 === 'スキル獲得')
-  ) return 'E';
-
-  if (top1 === '役割・目標明瞭性') return 'E';
-
-  return 'F';
-}
+const TYPE_CHART_COLORS = {
+  A: { border: '#E8502A', bg: 'rgba(232,80,42,0.18)' },
+  B: { border: '#E8A020', bg: 'rgba(232,160,32,0.18)' },
+  C: { border: '#3A8C28', bg: 'rgba(58,140,40,0.18)' },
+  D: { border: '#5C3A78', bg: 'rgba(92,58,120,0.18)' },
+  E: { border: '#1A88CC', bg: 'rgba(26,136,204,0.18)' },
+  F: { border: '#C8A86A', bg: 'rgba(200,168,106,0.18)' },
+};
 
 function calcScores(row) {
   const buckets = {};
   ELEMENT_ORDER.forEach(e => { buckets[e] = { sum: 0, count: 0 }; });
-
   Object.entries(QUESTION_MAP).forEach(([q, element]) => {
     const key = Object.keys(row).find(k => k.includes(q));
     if (key !== undefined && row[key] !== null && row[key] !== '') {
@@ -343,7 +491,6 @@ function calcScores(row) {
       }
     }
   });
-
   const scores = {};
   ELEMENT_ORDER.forEach(e => {
     const b = buckets[e];
@@ -352,45 +499,61 @@ function calcScores(row) {
   return scores;
 }
 
+function determineType(scores) {
+  const avg = ELEMENT_ORDER.reduce((s, k) => s + scores[k], 0) / ELEMENT_ORDER.length;
+  const ranked = [...ELEMENT_ORDER].sort((a, b) => scores[b] - scores[a]);
+  const top1 = ranked[0];
+  const top2 = ranked[1];
+  const 制度報酬 = scores['制度・報酬'];
+  if (avg >= 3.2) return 'A';
+  if (avg >= 2.8) return 制度報酬 >= 2.5 ? 'C' : 'B';
+  if (
+    (top1 === 'スキル獲得' || top1 === '成長実感・能力発揮') &&
+    (top2 === 'スキル獲得' || top2 === '成長実感・能力発揮')
+  ) return 'D';
+  if (
+    (top1 === '役割・目標明瞭性' || top2 === '役割・目標明瞭性') &&
+    (top1 === 'スキル獲得' || top2 === 'スキル獲得')
+  ) return 'E';
+  if (top1 === '役割・目標明瞭性') return 'E';
+  return 'F';
+}
+
 function render(scores, typeKey) {
   const type = TYPES[typeKey];
+  const screen = document.getElementById('resultScreen');
+  screen.className = 'type-' + typeKey;
+
   document.getElementById('typeName').textContent = type.name;
   document.getElementById('typeBadge').textContent = type.badge;
   document.getElementById('typeDesc').textContent = type.desc;
 
-  const list = document.getElementById('scoreList');
-  ELEMENT_ORDER.forEach(e => {
-    const pct = ((scores[e] - 1) / 3) * 100;
-    const row = document.createElement('div');
-    row.className = 'score-row';
-    row.innerHTML = `
-      <span class="score-label">${e}</span>
-      <div class="score-bar-wrap"><div class="score-bar" style="width:${Math.max(0,pct).toFixed(1)}%"></div></div>
-      <span class="score-val">${scores[e].toFixed(1)}</span>
-    `;
-    list.appendChild(row);
-  });
+  const c = { dark: type.colorDark, mid: type.colorMid, light: type.colorLight };
+  document.getElementById('typeIcon').innerHTML = type.icon(c);
 
+  const chartColors = TYPE_CHART_COLORS[typeKey];
   new Chart(document.getElementById('radarChart'), {
     type: 'radar',
     data: {
       labels: ELEMENT_ORDER,
       datasets: [{
         data: ELEMENT_ORDER.map(e => scores[e]),
-        backgroundColor: 'rgba(61,90,128,0.15)',
-        borderColor: 'rgba(61,90,128,0.8)',
-        borderWidth: 2,
-        pointBackgroundColor: 'rgba(61,90,128,1)',
+        backgroundColor: chartColors.bg,
+        borderColor: chartColors.border,
+        borderWidth: 2.5,
+        pointBackgroundColor: chartColors.border,
         pointRadius: 4,
+        pointHoverRadius: 6,
       }],
     },
     options: {
       scales: {
         r: {
           min: 1, max: 4,
-          ticks: { stepSize: 1, font: { size: 10 } },
-          pointLabels: { font: { size: 10, family: 'Noto Sans JP' } },
+          ticks: { stepSize: 1, font: { size: 10, family: "'BIZ UDPGothic', sans-serif" }, backdropColor: 'transparent' },
+          pointLabels: { font: { size: 11, family: "'BIZ UDPGothic', sans-serif" } },
           grid: { color: 'rgba(0,0,0,0.08)' },
+          angleLines: { color: 'rgba(0,0,0,0.08)' },
         },
       },
       plugins: { legend: { display: false } },
@@ -398,27 +561,52 @@ function render(scores, typeKey) {
   });
 }
 
-async function init() {
+async function fetchResult() {
+  const name = document.getElementById('nameInput').value.trim();
+  const errEl = document.getElementById('nameError');
+  errEl.style.display = 'none';
+
+  if (!name) {
+    errEl.textContent = '氏名を入力してください。';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  document.getElementById('nameScreen').style.display = 'none';
+  document.getElementById('loading').style.display = 'flex';
+
   try {
-    if (GAS_URL === 'ここにGASのURLを貼り付け') {
-      throw new Error('GAS_URLが設定されていません。HTMLファイル内のGAS_URLを更新してください。');
-    }
-    const res = await fetch(GAS_URL);
+    const res = await fetch(GAS_URL + '?name=' + encodeURIComponent(name));
     const data = await res.json();
-    if (!data || data.error) throw new Error(data.error || '不明なエラー');
+
+    if (data.error) {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('nameScreen').style.display = 'flex';
+      errEl.textContent = data.error === '該当する回答が見つかりませんでした'
+        ? '回答が見つかりませんでした。フォームと同じ氏名を入力してください。'
+        : data.error;
+      errEl.style.display = 'block';
+      return;
+    }
+
     const scores = calcScores(data);
     const typeKey = determineType(scores);
+
     document.getElementById('loading').style.display = 'none';
-    document.getElementById('main').style.display = 'block';
+    document.getElementById('resultScreen').style.display = 'block';
     render(scores, typeKey);
+
   } catch (e) {
     document.getElementById('loading').style.display = 'none';
-    document.getElementById('error').style.display = 'block';
-    document.getElementById('errorDetail').textContent = e.message;
+    document.getElementById('nameScreen').style.display = 'flex';
+    errEl.textContent = 'データの取得に失敗しました。時間をおいて再度お試しください。';
+    errEl.style.display = 'block';
   }
 }
 
-init();
+document.getElementById('nameInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') fetchResult();
+});
 </script>
 </body>
 </html>
