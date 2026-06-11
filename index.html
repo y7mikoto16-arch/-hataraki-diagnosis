@@ -74,7 +74,7 @@ body {
 }
 
 .name-card .logo {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.2em;
   color: var(--text-sub);
@@ -82,14 +82,14 @@ body {
 }
 
 .name-card h1 {
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 700;
   margin-bottom: 8px;
   line-height: 1.4;
 }
 
 .name-card p {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--text-sub);
   line-height: 1.8;
   margin-bottom: 32px;
@@ -174,7 +174,7 @@ body {
 }
 
 .result-header .label {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.2em;
   opacity: 0.6;
@@ -198,13 +198,13 @@ body {
 }
 
 .anata-wa {
-  font-size: 13px;
+  font-size: 16px;
   opacity: 0.7;
   margin-bottom: 4px;
 }
 
 .type-name-large {
-  font-size: clamp(26px, 6vw, 38px);
+  font-size: clamp(30px, 7vw, 44px);
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 8px;
@@ -212,10 +212,10 @@ body {
 
 .type-badge {
   display: inline-block;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.12em;
-  padding: 4px 14px;
+  padding: 5px 16px;
   border-radius: 100px;
   opacity: 0.85;
 }
@@ -225,21 +225,21 @@ body {
   margin: 32px auto 0;
   background: rgba(255,255,255,0.6);
   border-radius: 12px;
-  padding: 20px 24px;
-  font-size: 14px;
+  padding: 24px 28px;
+  font-size: 16px;
   line-height: 1.9;
   text-align: left;
 }
 
 /* ========== レーダーチャートセクション ========== */
 .chart-section {
-  max-width: 640px;
+  max-width: 680px;
   margin: 0 auto;
   padding: 0 24px 64px;
 }
 
 .section-label {
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.18em;
   color: var(--text-sub);
@@ -248,7 +248,7 @@ body {
 }
 
 .chart-wrap {
-  max-width: 420px;
+  max-width: 520px;
   margin: 0 auto;
 }
 
@@ -550,8 +550,8 @@ function render(scores, typeKey) {
       scales: {
         r: {
           min: 1, max: 4,
-          ticks: { stepSize: 1, font: { size: 10, family: "'BIZ UDPGothic', sans-serif" }, backdropColor: 'transparent' },
-          pointLabels: { font: { size: 11, family: "'BIZ UDPGothic', sans-serif" } },
+          ticks: { stepSize: 1, font: { size: 12, family: "'BIZ UDPGothic', sans-serif" }, backdropColor: 'transparent' },
+          pointLabels: { font: { size: 14, family: "'BIZ UDPGothic', sans-serif" } },
           grid: { color: 'rgba(0,0,0,0.08)' },
           angleLines: { color: 'rgba(0,0,0,0.08)' },
         },
