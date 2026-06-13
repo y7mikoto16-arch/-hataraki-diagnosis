@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -226,7 +225,7 @@ body {
   background: rgba(255,255,255,0.6);
   border-radius: 12px;
   padding: 24px 28px;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 1.9;
   text-align: left;
 }
@@ -239,52 +238,62 @@ body {
 }
 
 .section-label {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.18em;
   color: var(--text-sub);
- margin-bottom: 24px; margin-top: 48px;
+  margin-bottom: 24px;
   text-align: center;
 }
 
 .chart-wrap {
-  max-width: 680px;
+  max-width: 520px;
   margin: 0 auto;
 }
 
 /* ========== タイプ別カラー ========== */
-.type-A { background: linear-gradient(135deg, var(--type-a-dark), var(--type-a-mid)); color: #fff; }
-.type-A .type-badge { background: rgba(255,255,255,0.25); color: #fff; }
-.type-A .desc-card { border-left: 3px solid var(--type-a-mid); }
+/* 共通：背景は淡い色、テキストは暗色 */
+.type-A .result-header { background: var(--type-a-light); }
+.type-A .label { color: var(--type-a-dark); }
+.type-A .anata-wa { color: var(--type-a-dark); opacity: 0.8; }
+.type-A .type-name-large { color: var(--type-a-dark); }
+.type-A .type-badge { background: var(--type-a-dark); color: #fff; }
+.type-A .desc-card { border-left: 4px solid var(--type-a-dark); background: rgba(255,255,255,0.75); }
 
-.type-B { background: linear-gradient(135deg, var(--type-b-dark), var(--type-b-mid)); color: #fff; }
-.type-B .type-badge { background: rgba(255,255,255,0.25); color: #fff; }
-.type-B .desc-card { border-left: 3px solid var(--type-b-mid); }
+.type-B .result-header { background: var(--type-b-light); }
+.type-B .label { color: var(--type-b-dark); }
+.type-B .anata-wa { color: var(--type-b-dark); opacity: 0.8; }
+.type-B .type-name-large { color: var(--type-b-dark); }
+.type-B .type-badge { background: var(--type-b-dark); color: #fff; }
+.type-B .desc-card { border-left: 4px solid var(--type-b-dark); background: rgba(255,255,255,0.75); }
 
-.type-C { background: linear-gradient(135deg, var(--type-c-dark), var(--type-c-mid)); color: #fff; }
-.type-C .type-badge { background: rgba(255,255,255,0.25); color: #fff; }
-.type-C .desc-card { border-left: 3px solid var(--type-c-mid); }
+.type-C .result-header { background: var(--type-c-light); }
+.type-C .label { color: var(--type-c-dark); }
+.type-C .anata-wa { color: var(--type-c-dark); opacity: 0.8; }
+.type-C .type-name-large { color: var(--type-c-dark); }
+.type-C .type-badge { background: var(--type-c-dark); color: #fff; }
+.type-C .desc-card { border-left: 4px solid var(--type-c-dark); background: rgba(255,255,255,0.75); }
 
-.type-D { background: linear-gradient(135deg, var(--type-d-dark), var(--type-d-mid)); color: #fff; }
-.type-D .type-badge { background: rgba(255,255,255,0.25); color: #fff; }
-.type-D .desc-card { border-left: 3px solid var(--type-d-mid); }
+.type-D .result-header { background: var(--type-d-light); }
+.type-D .label { color: var(--type-d-dark); }
+.type-D .anata-wa { color: var(--type-d-dark); opacity: 0.8; }
+.type-D .type-name-large { color: var(--type-d-dark); }
+.type-D .type-badge { background: var(--type-d-dark); color: #fff; }
+.type-D .desc-card { border-left: 4px solid var(--type-d-dark); background: rgba(255,255,255,0.75); }
 
-.type-E { background: linear-gradient(135deg, var(--type-e-dark), var(--type-e-mid)); color: #fff; }
-.type-E .type-badge { background: rgba(255,255,255,0.25); color: #fff; }
-.type-E .desc-card { border-left: 3px solid var(--type-e-mid); }
+.type-E .result-header { background: var(--type-e-light); }
+.type-E .label { color: var(--type-e-dark); }
+.type-E .anata-wa { color: var(--type-e-dark); opacity: 0.8; }
+.type-E .type-name-large { color: var(--type-e-dark); }
+.type-E .type-badge { background: var(--type-e-dark); color: #fff; }
+.type-E .desc-card { border-left: 4px solid var(--type-e-dark); background: rgba(255,255,255,0.75); }
 
-.type-F .anata-wa { color: var(--text-sub); }
-.type-F .type-name-large { color: var(--text); }
-.type-F .result-header { background: linear-gradient(135deg, #F0EDE8, var(--type-f-light)); }
-.type-F .type-badge { background: var(--type-f-dark); color: #EDE0CC; }
-.type-F .desc-card { border-left: 3px solid var(--type-f-mid); }
-
-/* タイプF以外のヘッダーはカラーで */
-#resultScreen.type-A .result-header,
-#resultScreen.type-B .result-header,
-#resultScreen.type-C .result-header,
-#resultScreen.type-D .result-header,
-#resultScreen.type-E .result-header { color: #fff; }
+.type-F .result-header { background: var(--type-f-light); }
+.type-F .label { color: var(--type-f-dark); }
+.type-F .anata-wa { color: var(--type-f-dark); opacity: 0.8; }
+.type-F .type-name-large { color: var(--type-f-dark); }
+.type-F .type-badge { background: var(--type-f-dark); color: var(--type-f-light); }
+.type-F .desc-card { border-left: 4px solid var(--type-f-mid); background: rgba(255,255,255,0.75); }
 
 /* ========== SVGアイコン ========== */
 .type-icon { width: 96px; height: 96px; }
@@ -345,7 +354,7 @@ body {
 </div>
 
 <script>
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbxXu5V8W2eTHJfWkrd-ZDJI_TE0yEVq_Hkjop0MIyjwF20OPRBWPZxYsLWlBW0HFK6wUw/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbyx-a3InQsD2sMq5RFbNGNQfSww6DS_LE2-iOSYjK2uwrrJkQuCiw41xJAPTBg1WPbAgw/exec';
 
 const ELEMENT_ORDER = [
   '業界への誇り','良好な人間関係','他者承認',
@@ -354,22 +363,22 @@ const ELEMENT_ORDER = [
 ];
 
 const QUESTION_MAP = {
-  '私は福祉業界で働いていることを誇りに思う': '業界への誇り',
-  '私の職場には、信頼できる上司や同僚がいる': '良好な人間関係',
-  '私と同僚の間には、困ったときに助け合う関係がある': '良好な人間関係',
-  '上司や同僚とは、厳しい意見も素直に言い合うことができる': '良好な人間関係',
-  '私は上司や同僚から認められていると感じる': '他者承認',
-  '私は利用者や他職種から必要とされていると感じる': '他者承認',
-  '私は仕事を通して社会に貢献していると感じる': '社会貢献・他者貢献',
-  '私は同僚や後輩から頼りにされていると感じる': '社会貢献・他者貢献',
-  '気兼ねなく休暇（有給・長期休暇含む）を取得できる': '制度・報酬',
-  '仕事に見合った報酬や対価が得られる': '制度・報酬',
-  '仕事を通じて成長したと感じられる': '成長実感・能力発揮',
-  '私は、担当業務において自分のスキルや能力を十分活かしている': '成長実感・能力発揮',
-  '私は難易度の高い仕事や新しい仕事に挑戦している': '成長実感・能力発揮',
-  '私の職場ではそれぞれ担うべき役割が明確になっている': '役割・目標明瞭性',
-  'この仕事では、自分だからこそできる／できたと思うことがある': '役割・目標明瞭性',
-  '新たな知識やスキル、資格を積極的に獲得している': 'スキル獲得',
+  'Q7㉔私は福祉業界で働いていることを誇りに思う': '業界への誇り',
+  'Q7⑦私の職場には、信頼できる上司や同僚がいる': '良好な人間関係',
+  'Q7⑧私と同僚の間には、困ったときに助け合う関係がある': '良好な人間関係',
+  'Q7⑤上司や同僚とは、厳しい意見も素直に言い合うことができる': '良好な人間関係',
+  'Q7㉖私は上司や同僚から認められていると感じる': '他者承認',
+  'Q7㉙私は利用者や他職種から必要とされていると感じる': '他者承認',
+  'Q7⑱私は仕事を通して社会に貢献していると感じる': '社会貢献・他者貢献',
+  'Q7㉗私は同僚や後輩から頼りにされていると感じる': '社会貢献・他者貢献',
+  'Q7③気兼ねなく休暇（有給・長期休暇含む）を取得できる': '制度・報酬',
+  'Q7⑬仕事に見合った報酬や対価が得られる': '制度・報酬',
+  'Q7⑯仕事を通じて成長したと感じられる': '成長実感・能力発揮',
+  'Q8②私は、担当業務において自分のスキルや能力を十分活かしている ': '成長実感・能力発揮',
+  'Q7⑰私は難易度の高い仕事や新しい仕事に挑戦している': '成長実感・能力発揮',
+  'Q7㉓私の職場ではそれぞれ担うべき役割が明確になっている': '役割・目標明瞭性',
+  'Q7⑳この仕事では、自分だからこそできる／できたと思うことがある': '役割・目標明瞭性',
+  'Q8③新たな知識やスキル、資格を積極的に獲得している': 'スキル獲得',
 };
 
 const TYPES = {
@@ -482,7 +491,7 @@ function calcScores(row) {
   const buckets = {};
   ELEMENT_ORDER.forEach(e => { buckets[e] = { sum: 0, count: 0 }; });
   Object.entries(QUESTION_MAP).forEach(([q, element]) => {
-    const key = Object.keys(row).find(k => k.includes(q));
+    const key = Object.keys(row).find(k => k.trim() === q.trim());
     if (key !== undefined && row[key] !== null && row[key] !== '') {
       const val = Number(row[key]);
       if (!isNaN(val)) {
